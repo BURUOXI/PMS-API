@@ -1,0 +1,1854 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>PMS后台接口测试测试报告</title>
+    <meta name="generator" content="HTMLTestRunner 0.8.2.2"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    
+<style type="text/css" media="screen">
+body        { font-family: Microsoft YaHei,Tahoma,arial,helvetica,sans-serif;padding: 20px; font-size: 120%; }
+table       { font-size: 100%; }
+/* -- heading ---------------------------------------------------------------------- */
+.heading {
+    margin-top: 0ex;
+    margin-bottom: 1ex;
+}
+.heading .description {
+    margin-top: 4ex;
+    margin-bottom: 6ex;
+}
+/* -- report ------------------------------------------------------------------------ */
+#total_row  { font-weight: bold; }
+.passCase   { color: #5cb85c; }
+.failCase   { color: #d9534f; font-weight: bold; }
+.errorCase  { color: #f0ad4e; font-weight: bold; }
+.hiddenRow  { display: none; }
+.testcase   { margin-left: 2em; }
+</style>
+
+</head>
+<body >
+<script language="javascript" type="text/javascript">
+output_list = Array();
+/*level 调整增加只显示通过用例的分类 --Findyou
+0:Summary //all hiddenRow
+1:Failed  //pt hiddenRow, ft none
+2:Pass    //pt none, ft hiddenRow
+3:All     //pt none, ft none
+*/
+function showCase(level) {
+    trs = document.getElementsByTagName("tr");
+    for (var i = 0; i < trs.length; i++) {
+        tr = trs[i];
+        id = tr.id;
+        if (id.substr(0,2) == 'ft') {
+            if (level == 2 || level == 0 ) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+        if (id.substr(0,2) == 'pt') {
+            if (level < 2) {
+                tr.className = 'hiddenRow';
+            }
+            else {
+                tr.className = '';
+            }
+        }
+    }
+    //加入【详细】切换文字变化 --Findyou
+    detail_class=document.getElementsByClassName('detail');
+	//console.log(detail_class.length)
+	if (level == 3) {
+		for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="收起"
+		}
+	}
+	else{
+			for (var i = 0; i < detail_class.length; i++){
+			detail_class[i].innerHTML="详细"
+		}
+	}
+}
+function showClassDetail(cid, count) {
+    var id_list = Array(count);
+    var toHide = 1;
+    for (var i = 0; i < count; i++) {
+        //ID修改 点 为 下划线 -Findyou
+        tid0 = 't' + cid.substr(1) + '_' + (i+1);
+        tid = 'f' + tid0;
+        tr = document.getElementById(tid);
+        if (!tr) {
+            tid = 'p' + tid0;
+            tr = document.getElementById(tid);
+        }
+        id_list[i] = tid;
+        if (tr.className) {
+            toHide = 0;
+        }
+    }
+    for (var i = 0; i < count; i++) {
+        tid = id_list[i];
+        //修改点击无法收起的BUG，加入【详细】切换文字变化 --Findyou
+        if (toHide) {
+            document.getElementById(tid).className = 'hiddenRow';
+            document.getElementById(cid).innerText = "详细"
+        }
+        else {
+            document.getElementById(tid).className = '';
+            document.getElementById(cid).innerText = "收起"
+        }
+    }
+}
+function html_escape(s) {
+    s = s.replace(/&/g,'&amp;');
+    s = s.replace(/</g,'&lt;');
+    s = s.replace(/>/g,'&gt;');
+    return s;
+}
+</script>
+<div class='heading'>
+<h1 style="font-family: Microsoft YaHei">PMS后台接口测试测试报告</h1>
+<p class='attribute'><strong>测试人员 : </strong> 谢光福</p>
+<p class='attribute'><strong>开始时间 : </strong> 2022-01-14 15:36:10</p>
+<p class='attribute'><strong>合计耗时 : </strong> 0:01:22.352880</p>
+<p class='attribute'><strong>测试结果 : </strong> 共 151，通过 148，失败 3，通过率= 98.01%</p>
+
+<p class='description'>接口测试报告</p>
+</div>
+
+
+<p id='show_detail_line'>
+<a class="btn btn-primary" href='javascript:showCase(0)'>概要{ 98.01% }</a>
+<a class="btn btn-danger" href='javascript:showCase(1)'>失败{ 3 }</a>
+<a class="btn btn-success" href='javascript:showCase(2)'>通过{ 148 }</a>
+<a class="btn btn-info" href='javascript:showCase(3)'>所有{ 151 }</a>
+</p>
+<table id='result_table' class="table table-condensed table-bordered table-hover">
+<colgroup>
+<col align='left' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+<col align='right' />
+</colgroup>
+<tr id='header_row' class="text-center success" style="font-weight: bold;font-size: 16px;">
+    <td>用例集/测试用例</td>
+    <td>总计</td>
+    <td>通过</td>
+    <td>失败</td>
+    <td>错误</td>
+    <td>详细</td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>test_Wxorder.WxOrder</td>
+    <td class="text-center">6</td>
+    <td class="text-center">4</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c1',6)" class="detail" id='c1'>详细</a></td>
+</tr>
+
+<tr id='pt1_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorder_1: 品牌为空</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_1'>通过</button>
+    <div id='div_pt1_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_1'>通过</button>
+    <div id='div_pt1_1' class="collapse in" align="left">
+    <pre>
+    
+pt1_1: https://location.lanhanba.net/v1/merchant/specifications/276/order put {'activity_plans': [{'name': '2020年邻汇吧绩效考核_陈伟锋.xls', 'url': 'https://files.location.pub/tmp/wx207d04e11b36865e.o6zAJs_h0FaCOmax0sblfssDdC-s.QHWOFlWwTOa0f29f7328f17137a90e31869cd2a912a2.xls'}], 'brand_name': '', 'company_name': '广州奥园物业服务有限公司南海分公司', 'business_license_url': 'https://images.location.pub/tmp_4d9375ed52be1c81e0ee7fbb6774eb0618481e4eb1259c8d.jpg', 'id': 276, 'form_id': 'the formId is no longer available in develop or trial version of this mini program', 'dates': ['2022-01-10'], 'message': ''} {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvbWVyY2hhbnRcL21lcmNoYW50XC93ZWNoYXRcL2xvZ2luIiwiaWF0IjoxNjQwODQ0NDk4LCJleHAiOjE2NTYzOTY0OTgsIm5iZiI6MTY0MDg0NDQ5OCwianRpIjoiRjhMSHlrdHFzWkZva0xURCIsInN1YiI6NTEsInBydiI6IjkzYmRjYzU4ZGQwMWNlMzZlYzU2ZTMyYjViYjU4MGQ4MzAzMmZkMTgifQ.7FoMT8W06L6B5pcUhAqZ1K2BmGLpmMed4xwSMY-paBE'}
+{'message': '活动品牌 不能为空。', 'errors': {'brand_name': ['活动品牌 不能为空。'], 'dates': ['预订的开始日期 不能为空。'], 'form_id': ['微信 form_id 不能为空。']}}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorder_2: 品牌字段为数值</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_2'>通过</button>
+    <div id='div_pt1_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_2'>通过</button>
+    <div id='div_pt1_2' class="collapse in" align="left">
+    <pre>
+    
+pt1_2: https://location.lanhanba.net/v1/merchant/specifications/276/order put {'activity_plans': [{'name': '2020年邻汇吧绩效考核_陈伟锋.xls', 'url': 'https://files.location.pub/tmp/wx207d04e11b36865e.o6zAJs_h0FaCOmax0sblfssDdC-s.QHWOFlWwTOa0f29f7328f17137a90e31869cd2a912a2.xls'}], 'brand_name': 123, 'company_name': '广州奥园物业服务有限公司南海分公司', 'business_license_url': 'https://images.location.pub/tmp_4d9375ed52be1c81e0ee7fbb6774eb0618481e4eb1259c8d.jpg', 'id': 276, 'form_id': 'the formId is no longer available in develop or trial version of this mini program', 'dates': ['2022-01-10'], 'message': ''} {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvbWVyY2hhbnRcL21lcmNoYW50XC93ZWNoYXRcL2xvZ2luIiwiaWF0IjoxNjQwODQ0NDk4LCJleHAiOjE2NTYzOTY0OTgsIm5iZiI6MTY0MDg0NDQ5OCwianRpIjoiRjhMSHlrdHFzWkZva0xURCIsInN1YiI6NTEsInBydiI6IjkzYmRjYzU4ZGQwMWNlMzZlYzU2ZTMyYjViYjU4MGQ4MzAzMmZkMTgifQ.7FoMT8W06L6B5pcUhAqZ1K2BmGLpmMed4xwSMY-paBE'}
+{'message': '活动品牌 不能为空。', 'errors': {'brand_name': ['活动品牌 不能为空。'], 'dates': ['预订的开始日期 不能为空。'], 'form_id': ['微信 form_id 不能为空。']}}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorder_3: 订单时间为空</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_3'>通过</button>
+    <div id='div_pt1_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_3'>通过</button>
+    <div id='div_pt1_3' class="collapse in" align="left">
+    <pre>
+    
+pt1_3: https://location.lanhanba.net/v1/merchant/specifications/276/order put {'activity_plans': [{'name': '2020年邻汇吧绩效考核_陈伟锋.xls', 'url': 'https://files.location.pub/tmp/wx207d04e11b36865e.o6zAJs_h0FaCOmax0sblfssDdC-s.QHWOFlWwTOa0f29f7328f17137a90e31869cd2a912a2.xls'}], 'brand_name': '冰红茶', 'company_name': '广州奥园物业服务有限公司南海分公司', 'business_license_url': 'https://images.location.pub/tmp_4d9375ed52be1c81e0ee7fbb6774eb0618481e4eb1259c8d.jpg', 'form_id': 'the formId is no longer available in develop or trial version of this mini program', 'dates': [''], 'message': ''} {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvbWVyY2hhbnRcL21lcmNoYW50XC93ZWNoYXRcL2xvZ2luIiwiaWF0IjoxNjQwODQ0NDk4LCJleHAiOjE2NTYzOTY0OTgsIm5iZiI6MTY0MDg0NDQ5OCwianRpIjoiRjhMSHlrdHFzWkZva0xURCIsInN1YiI6NTEsInBydiI6IjkzYmRjYzU4ZGQwMWNlMzZlYzU2ZTMyYjViYjU4MGQ4MzAzMmZkMTgifQ.7FoMT8W06L6B5pcUhAqZ1K2BmGLpmMed4xwSMY-paBE'}
+{'message': '活动品牌 不能为空。', 'errors': {'brand_name': ['活动品牌 不能为空。'], 'dates': ['预订的开始日期 不能为空。'], 'form_id': ['微信 form_id 不能为空。']}}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt1_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorder_4: 订单时间格式错误</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt1_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt1_4'>通过</button>
+    <div id='div_pt1_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt1_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt1_4'>通过</button>
+    <div id='div_pt1_4' class="collapse in" align="left">
+    <pre>
+    
+pt1_4: https://location.lanhanba.net/v1/merchant/specifications/276/order put {'activity_plans': [{'name': '2020年邻汇吧绩效考核_陈伟锋.xls', 'url': 'https://files.location.pub/tmp/wx207d04e11b36865e.o6zAJs_h0FaCOmax0sblfssDdC-s.QHWOFlWwTOa0f29f7328f17137a90e31869cd2a912a2.xls'}], 'brand_name': '冰红茶', 'company_name': '广州奥园物业服务有限公司南海分公司', 'business_license_url': 'https://images.location.pub/tmp_4d9375ed52be1c81e0ee7fbb6774eb0618481e4eb1259c8d.jpg', 'form_id': 'the formId is no longer available in develop or trial version of this mini program', 'dates': ['2022-01-0'], 'message': ''} {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvbWVyY2hhbnRcL21lcmNoYW50XC93ZWNoYXRcL2xvZ2luIiwiaWF0IjoxNjQwODQ0NDk4LCJleHAiOjE2NTYzOTY0OTgsIm5iZiI6MTY0MDg0NDQ5OCwianRpIjoiRjhMSHlrdHFzWkZva0xURCIsInN1YiI6NTEsInBydiI6IjkzYmRjYzU4ZGQwMWNlMzZlYzU2ZTMyYjViYjU4MGQ4MzAzMmZkMTgifQ.7FoMT8W06L6B5pcUhAqZ1K2BmGLpmMed4xwSMY-paBE'}
+{'message': '活动品牌 不能为空。', 'errors': {'brand_name': ['活动品牌 不能为空。'], 'dates': ['预订的开始日期 不能为空。'], 'form_id': ['微信 form_id 不能为空。']}}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_5' class='none'>
+    <td class='failCase'><div class='testcase'>test_wxorder_5: 单日期下订单成功</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_5'>失败</button>
+    <div id='div_ft1_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_5'>失败</button>
+    <div id='div_ft1_5' class="collapse in" align="left">
+    <pre>
+    
+ft1_5: https://location.lanhanba.net/v1/merchant/specifications/276/order put {'activity_plans': [{'name': '2020年邻汇吧绩效考核_陈伟锋.xls', 'url': 'https://files.location.pub/tmp/wx207d04e11b36865e.o6zAJs_h0FaCOmax0sblfssDdC-s.QHWOFlWwTOa0f29f7328f17137a90e31869cd2a912a2.xls'}], 'brand_name': '冰红茶', 'company_name': '广州奥园物业服务有限公司南海分公司', 'business_license_url': 'https://images.location.pub/tmp_4d9375ed52be1c81e0ee7fbb6774eb0618481e4eb1259c8d.jpg', 'form_id': 'the formId is no longer available in develop or trial version of this mini program', 'dates': ['2022-01-15'], 'message': ''} {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvbWVyY2hhbnRcL21lcmNoYW50XC93ZWNoYXRcL2xvZ2luIiwiaWF0IjoxNjQwODQ0NDk4LCJleHAiOjE2NTYzOTY0OTgsIm5iZiI6MTY0MDg0NDQ5OCwianRpIjoiRjhMSHlrdHFzWkZva0xURCIsInN1YiI6NTEsInBydiI6IjkzYmRjYzU4ZGQwMWNlMzZlYzU2ZTMyYjViYjU4MGQ4MzAzMmZkMTgifQ.7FoMT8W06L6B5pcUhAqZ1K2BmGLpmMed4xwSMY-paBE'}
+{'message': '活动品牌 不能为空。', 'errors': {'brand_name': ['活动品牌 不能为空。'], 'dates': ['预订的开始日期 不能为空。'], 'form_id': ['微信 form_id 不能为空。']}}
+422
+Traceback (most recent call last):
+  File "D:\Workbook\PMS-API\library\ddt.py", line 149, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\Workbook\PMS-API\testcases\test_Wxorder.py", line 76, in test_wxorder
+    raise e
+  File "D:\Workbook\PMS-API\testcases\test_Wxorder.py", line 69, in test_wxorder
+    self.assertEqual(expected, code)
+AssertionError: 201 != 422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='ft1_6' class='none'>
+    <td class='failCase'><div class='testcase'>test_wxorder_6: 多日期下订单成功</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft1_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft1_6'>失败</button>
+    <div id='div_ft1_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft1_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft1_6'>失败</button>
+    <div id='div_ft1_6' class="collapse in" align="left">
+    <pre>
+    
+ft1_6: https://location.lanhanba.net/v1/merchant/specifications/276/order put {'activity_plans': [{'name': '2020年邻汇吧绩效考核_陈伟锋.xls', 'url': 'https://files.location.pub/tmp/wx207d04e11b36865e.o6zAJs_h0FaCOmax0sblfssDdC-s.QHWOFlWwTOa0f29f7328f17137a90e31869cd2a912a2.xls'}], 'brand_name': '冰红茶', 'company_name': '广州奥园物业服务有限公司南海分公司', 'business_license_url': 'https://images.location.pub/tmp_4d9375ed52be1c81e0ee7fbb6774eb0618481e4eb1259c8d.jpg', 'form_id': 'the formId is no longer available in develop or trial version of this mini program', 'dates': ['2022-01-15', '2022-01-19'], 'message': ''} {'Content-Type': 'application/json', 'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvbWVyY2hhbnRcL21lcmNoYW50XC93ZWNoYXRcL2xvZ2luIiwiaWF0IjoxNjQwODQ0NDk4LCJleHAiOjE2NTYzOTY0OTgsIm5iZiI6MTY0MDg0NDQ5OCwianRpIjoiRjhMSHlrdHFzWkZva0xURCIsInN1YiI6NTEsInBydiI6IjkzYmRjYzU4ZGQwMWNlMzZlYzU2ZTMyYjViYjU4MGQ4MzAzMmZkMTgifQ.7FoMT8W06L6B5pcUhAqZ1K2BmGLpmMed4xwSMY-paBE'}
+{'message': '活动品牌 不能为空。', 'errors': {'brand_name': ['活动品牌 不能为空。'], 'dates': ['预订的开始日期 不能为空。'], 'form_id': ['微信 form_id 不能为空。']}}
+422
+Traceback (most recent call last):
+  File "D:\Workbook\PMS-API\library\ddt.py", line 149, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\Workbook\PMS-API\testcases\test_Wxorder.py", line 76, in test_wxorder
+    raise e
+  File "D:\Workbook\PMS-API\testcases\test_Wxorder.py", line 69, in test_wxorder
+    self.assertEqual(expected, code)
+AssertionError: 201 != 422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_account.TestAccount</td>
+    <td class="text-center">16</td>
+    <td class="text-center">16</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c2',16)" class="detail" id='c2'>详细</a></td>
+</tr>
+
+<tr id='pt2_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_01: 创建收款账号成功</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_02: 收款人名称过长</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_03: 收款人为英文</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_04: 收款人为数值</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_05: 收款人为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_06: 收款方式不存在</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_07: 收款方式为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_08: 开户行大于30字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_09: tapy为1和2开户行为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_10' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_10: 收款号为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_11' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_11: 收款号超过32字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_12' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_12: 收款号为中文</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_13' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_13: 收款号为英文</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_14' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_14: 收款号为特殊字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_15' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_account_15: 收款号为特殊字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt2_16' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_getaccountlist</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_activities.TestActivities</td>
+    <td class="text-center">2</td>
+    <td class="text-center">2</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c3',2)" class="detail" id='c3'>详细</a></td>
+</tr>
+
+<tr id='pt3_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_activities_1: 活动名称为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt3_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_getaccountlist</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_advs.TestAdv</td>
+    <td class="text-center">15</td>
+    <td class="text-center">15</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c4',15)" class="detail" id='c4'>详细</a></td>
+</tr>
+
+<tr id='pt4_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_01: 新增广告位-资源编号大于15字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_02: 新增广告位-资源编号为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_03: 新增广告位-点位标题大于15字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_04: 新增广告位-点位标题为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_05: 新增广告位-关联项目为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_06: 新增广告位-点位类型为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_07: 新增广告位-室内外为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_08: 新增广告位-室内外属性2不存在</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_09: 新增广告位-固定/零时为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_10' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_10: 新增广告位-固定/零时属性2不存在</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_11' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_11: 新增广告位-楼层为字符串</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_12' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_12: 新增广告位-楼层-6</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_13' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_13: 新增广告位-楼层为51</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_14' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_14: 新增广告位-楼层为小数</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt4_15' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_advs_15: 新增广告位-楼层为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_booth.TestBooth</td>
+    <td class="text-center">22</td>
+    <td class="text-center">22</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c5',22)" class="detail" id='c5'>详细</a></td>
+</tr>
+
+<tr id='pt5_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_01: 展位编号21位</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_1'>通过</button>
+    <div id='div_pt5_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_1'>通过</button>
+    <div id='div_pt5_1' class="collapse in" align="left">
+    <pre>
+    
+pt5_1: PMS自动测试展位-佛山海琴水岸35
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_02: 展位编号为空</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_2'>通过</button>
+    <div id='div_pt5_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_2'>通过</button>
+    <div id='div_pt5_2' class="collapse in" align="left">
+    <pre>
+    
+pt5_2: PMS自动测试展位-佛山海琴水岸93
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_03: 展位名称为空</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_3'>通过</button>
+    <div id='div_pt5_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_3'>通过</button>
+    <div id='div_pt5_3' class="collapse in" align="left">
+    <pre>
+    
+pt5_3: PMS自动测试展位-佛山海琴水岸10
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_04: 展位名称21位</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_4'>通过</button>
+    <div id='div_pt5_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_4'>通过</button>
+    <div id='div_pt5_4' class="collapse in" align="left">
+    <pre>
+    
+pt5_4: PMS自动测试展位-佛山海琴水岸76
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_05: 室内/字段非法</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_5'>通过</button>
+    <div id='div_pt5_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_5'>通过</button>
+    <div id='div_pt5_5' class="collapse in" align="left">
+    <pre>
+    
+pt5_5: PMS自动测试展位-佛山海琴水岸30
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_06: 室内/字段非法</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_6'>通过</button>
+    <div id='div_pt5_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_6'>通过</button>
+    <div id='div_pt5_6' class="collapse in" align="left">
+    <pre>
+    
+pt5_6: PMS自动测试展位-佛山海琴水岸89
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_07: 室内/字段非法</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_7'>通过</button>
+    <div id='div_pt5_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_7'>通过</button>
+    <div id='div_pt5_7' class="collapse in" align="left">
+    <pre>
+    
+pt5_7: PMS自动测试展位-佛山海琴水岸82
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_08: 室内/字段非法</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_8' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_8'>通过</button>
+    <div id='div_pt5_8' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_8' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_8'>通过</button>
+    <div id='div_pt5_8' class="collapse in" align="left">
+    <pre>
+    
+pt5_8: PMS自动测试展位-佛山海琴水岸19
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_09: 室内/字段非法</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_9' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_9'>通过</button>
+    <div id='div_pt5_9' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_9' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_9'>通过</button>
+    <div id='div_pt5_9' class="collapse in" align="left">
+    <pre>
+    
+pt5_9: PMS自动测试展位-佛山海琴水岸33
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_10' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_10: 室内/字段非法</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_10' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_10'>通过</button>
+    <div id='div_pt5_10' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_10' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_10'>通过</button>
+    <div id='div_pt5_10' class="collapse in" align="left">
+    <pre>
+    
+pt5_10: PMS自动测试展位-佛山海琴水岸43
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_11' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_11: 楼层字段传入字符串</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_11' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_11'>通过</button>
+    <div id='div_pt5_11' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_11' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_11'>通过</button>
+    <div id='div_pt5_11' class="collapse in" align="left">
+    <pre>
+    
+pt5_11: PMS自动测试展位-佛山海琴水岸39
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_12' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_12: 楼层字段传入特殊字符</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_12' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_12'>通过</button>
+    <div id='div_pt5_12' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_12' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_12'>通过</button>
+    <div id='div_pt5_12' class="collapse in" align="left">
+    <pre>
+    
+pt5_12: PMS自动测试展位-佛山海琴水岸24
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_13' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_13: 楼层传入小数</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_13' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_13'>通过</button>
+    <div id='div_pt5_13' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_13' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_13'>通过</button>
+    <div id='div_pt5_13' class="collapse in" align="left">
+    <pre>
+    
+pt5_13: PMS自动测试展位-佛山海琴水岸11
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_14' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_14: 楼层传入-5</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_14' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_14'>通过</button>
+    <div id='div_pt5_14' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_14' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_14'>通过</button>
+    <div id='div_pt5_14' class="collapse in" align="left">
+    <pre>
+    
+pt5_14: PMS自动测试展位-佛山海琴水岸84
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_15' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_15: 楼层传入51</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_15' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_15'>通过</button>
+    <div id='div_pt5_15' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_15' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_15'>通过</button>
+    <div id='div_pt5_15' class="collapse in" align="left">
+    <pre>
+    
+pt5_15: PMS自动测试展位-佛山海琴水岸42
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_16' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_16: 资源分类id不存在</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_16' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_16'>通过</button>
+    <div id='div_pt5_16' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_16' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_16'>通过</button>
+    <div id='div_pt5_16' class="collapse in" align="left">
+    <pre>
+    
+pt5_16: PMS自动测试展位-佛山海琴水岸88
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_17' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_17: 长度字段为0</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_17' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_17'>通过</button>
+    <div id='div_pt5_17' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_17' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_17'>通过</button>
+    <div id='div_pt5_17' class="collapse in" align="left">
+    <pre>
+    
+pt5_17: PMS自动测试展位-佛山海琴水岸15
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_18' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_18: 长度字段大于100</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_18' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_18'>通过</button>
+    <div id='div_pt5_18' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_18' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_18'>通过</button>
+    <div id='div_pt5_18' class="collapse in" align="left">
+    <pre>
+    
+pt5_18: PMS自动测试展位-佛山海琴水岸97
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_19' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_19: 长度字段为字符串</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_19' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_19'>通过</button>
+    <div id='div_pt5_19' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_19' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_19'>通过</button>
+    <div id='div_pt5_19' class="collapse in" align="left">
+    <pre>
+    
+pt5_19: PMS自动测试展位-佛山海琴水岸2
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_20' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_20: 宽度字段为0</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_20' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_20'>通过</button>
+    <div id='div_pt5_20' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_20' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_20'>通过</button>
+    <div id='div_pt5_20' class="collapse in" align="left">
+    <pre>
+    
+pt5_20: PMS自动测试展位-佛山海琴水岸83
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_21' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_21: 宽度字段大于100</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_21' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_21'>通过</button>
+    <div id='div_pt5_21' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_21' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_21'>通过</button>
+    <div id='div_pt5_21' class="collapse in" align="left">
+    <pre>
+    
+pt5_21: PMS自动测试展位-佛山海琴水岸70
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt5_22' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testbooth_22: 宽度字段为字符串</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt5_22' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt5_22'>通过</button>
+    <div id='div_pt5_22' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt5_22' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt5_22'>通过</button>
+    <div id='div_pt5_22' class="collapse in" align="left">
+    <pre>
+    
+pt5_22: PMS自动测试展位-佛山海琴水岸14
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_boothcases.TestBoothcases</td>
+    <td class="text-center">1</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c6',1)" class="detail" id='c6'>详细</a></td>
+</tr>
+
+<tr id='pt6_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>testboothcases_1</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt6_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt6_1'>通过</button>
+    <div id='div_pt6_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt6_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt6_1'>通过</button>
+    <div id='div_pt6_1' class="collapse in" align="left">
+    <pre>
+    
+pt6_1: PMS自动测试展位-佛山海琴水岸9
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_contract.TestContract</td>
+    <td class="text-center">33</td>
+    <td class="text-center">33</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c7',33)" class="detail" id='c7'>详细</a></td>
+</tr>
+
+<tr id='pt7_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_01: 合同名称为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_02: 合同名称26字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_03: 签约客户为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_04: 签约客户26字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_05: 联系人为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_06: 联系人为26字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_07: 联系人手机号10位</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_08: 联系人手机号12位</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_09: 联系人手机号为中文</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_10' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_10: 联系人手机号不符合规范</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_11' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_11: 资源类型不存在</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_12' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_12: 资源类型输入为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_13' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_13: 签约资源为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_14' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_14: 开始时间为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_15' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_15: 结束时间为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_16' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_16: 结束时间小于开始时间</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_17' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_17: 开始时间和结束时间为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_18' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_18: 开始时间传中文</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_19' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_19: 开始时间传入时分秒</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_20' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_20: 签约时间字段填写为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_21' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_21: 签约时间不符合规范</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_22' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_22: 附件上传为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_23' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_23: 备注信息超过300字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_24' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_24: 部门为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_25' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_25: 审批流不存在</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_26' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_26: 列表展示</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_27' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_27: 列表搜索-合同名称</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_28' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_28: 列表搜索-签约客户</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_29' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_29: 列表搜索-签约联系人</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_30' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_30: 列表搜索-签约联系人手机号</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_31' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_31: 列表搜索-合同编号</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_32' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_32: 开始时间</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt7_33' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_contract_33: 结束时间</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_login.TestLogin</td>
+    <td class="text-center">8</td>
+    <td class="text-center">8</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c8',8)" class="detail" id='c8'>详细</a></td>
+</tr>
+
+<tr id='pt8_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_1: 登录成功</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_1'>通过</button>
+    <div id='div_pt8_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_1'>通过</button>
+    <div id='div_pt8_1' class="collapse in" align="left">
+    <pre>
+    
+pt8_1: {'user': {'id': 368, 'name': '测试账号', 'mobile': '15377035335', 'position_id': 975, 'position_name': '测试', 'company_name': '山东宝典医疗科技有限公司', 'company_id': 294, 'corp_id': '', 'external_system': 0, 'company_number': '532275', 'has_set_department': 1, 'role_name': 'admin', 'is_location': 0}, 'token': {'access_token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODIxLCJleHAiOjE2NTc2OTc4MjEsIm5iZiI6MTY0MjE0NTgyMSwianRpIjoieDh1RUFJV3N5N0JxanhxaiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.k0LnJapQsfgxYsHdacjKhN7tpt3bicJyyfKM1TGmqYc', 'token_type': 'bearer', 'expires_at': 1657697821}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt8_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_2: 手机号为空</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_2'>通过</button>
+    <div id='div_pt8_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_2'>通过</button>
+    <div id='div_pt8_2' class="collapse in" align="left">
+    <pre>
+    
+pt8_2: {'message': '手机号 不能为空。', 'errors': {'mobile': ['手机号 不能为空。']}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt8_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_3: 密码为空</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_3'>通过</button>
+    <div id='div_pt8_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_3'>通过</button>
+    <div id='div_pt8_3' class="collapse in" align="left">
+    <pre>
+    
+pt8_3: {'message': '密码 不能为空。', 'errors': {'password': ['密码 不能为空。']}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt8_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_4: 手机号、密码为空</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_4'>通过</button>
+    <div id='div_pt8_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_4'>通过</button>
+    <div id='div_pt8_4' class="collapse in" align="left">
+    <pre>
+    
+pt8_4: {'message': '手机号 不能为空。', 'errors': {'mobile': ['手机号 不能为空。'], 'password': ['密码 不能为空。']}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt8_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_5: 密码错误</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_5'>通过</button>
+    <div id='div_pt8_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_5'>通过</button>
+    <div id='div_pt8_5' class="collapse in" align="left">
+    <pre>
+    
+pt8_5: {'message': '用户名或密码错误'}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt8_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_6: 手机号多输入</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_6'>通过</button>
+    <div id='div_pt8_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_6'>通过</button>
+    <div id='div_pt8_6' class="collapse in" align="left">
+    <pre>
+    
+pt8_6: {'message': '手机号 格式非法。', 'errors': {'mobile': ['手机号 格式非法。']}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt8_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_7: 手机号少输入</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_7'>通过</button>
+    <div id='div_pt8_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_7'>通过</button>
+    <div id='div_pt8_7' class="collapse in" align="left">
+    <pre>
+    
+pt8_7: {'message': '手机号 格式非法。', 'errors': {'mobile': ['手机号 格式非法。']}}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt8_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_login_8: 手机号未注册</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt8_8' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt8_8'>通过</button>
+    <div id='div_pt8_8' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt8_8' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt8_8'>通过</button>
+    <div id='div_pt8_8' class="collapse in" align="left">
+    <pre>
+    
+pt8_8: {'message': '用户名或密码错误'}
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='failClass warning'>
+    <td>test_mainstream.MainStream</td>
+    <td class="text-center">10</td>
+    <td class="text-center">9</td>
+    <td class="text-center">1</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c9',10)" class="detail" id='c9'>详细</a></td>
+</tr>
+
+<tr id='pt9_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_01: 登录</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt9_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_02: 新增项目</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt9_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_03: 项目列表</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='ft9_4' class='none'>
+    <td class='failCase'><div class='testcase'>test_mainstream_04: 删除项目</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_ft9_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_ft9_4'>失败</button>
+    <div id='div_ft9_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_ft9_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_ft9_4'>失败</button>
+    <div id='div_ft9_4' class="collapse in" align="left">
+    <pre>
+    
+ft9_4: Traceback (most recent call last):
+  File "D:\Workbook\PMS-API\library\ddt.py", line 149, in wrapper
+    return func(self, *args, **kwargs)
+  File "D:\Workbook\PMS-API\testcases\test_mainstream.py", line 96, in test_mainstream
+    raise e
+  File "D:\Workbook\PMS-API\testcases\test_mainstream.py", line 89, in test_mainstream
+    raise e
+  File "D:\Workbook\PMS-API\testcases\test_mainstream.py", line 83, in test_mainstream
+    self.assertEqual(expected, code)
+AssertionError: 200 != 404
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt9_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_05: 新增展位</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt9_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_06: 展位列表</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt9_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_07: 删除展位</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt9_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_08: 新增广告位</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt9_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_09: 广告位列表</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt9_10' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_mainstream_10: 删除广告位</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_orders.OrderList</td>
+    <td class="text-center">17</td>
+    <td class="text-center">17</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c10',17)" class="detail" id='c10'>详细</a></td>
+</tr>
+
+<tr id='pt10_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_01: 获取全部订单</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_1' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_1'>通过</button>
+    <div id='div_pt10_1' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_1' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_1'>通过</button>
+    <div id='div_pt10_1' class="collapse in" align="left">
+    <pre>
+    
+pt10_1: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'page': 1, 'page_size': 10, 'status': 'all'}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_02: 获取待审核订单列表</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_2' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_2'>通过</button>
+    <div id='div_pt10_2' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_2' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_2'>通过</button>
+    <div id='div_pt10_2' class="collapse in" align="left">
+    <pre>
+    
+pt10_2: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'page': 1, 'page_size': 10, 'status': 'review'}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_03: 待支付订单列表</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_3' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_3'>通过</button>
+    <div id='div_pt10_3' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_3' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_3'>通过</button>
+    <div id='div_pt10_3' class="collapse in" align="left">
+    <pre>
+    
+pt10_3: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'page': 1, 'page_size': 10, 'status': 'wait_pay'}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_04: 待进场订单列表</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_4' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_4'>通过</button>
+    <div id='div_pt10_4' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_4' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_4'>通过</button>
+    <div id='div_pt10_4' class="collapse in" align="left">
+    <pre>
+    
+pt10_4: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'page': 1, 'page_size': 10, 'status': 'wait_enter'}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_05: 进行中订单列表</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_5' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_5'>通过</button>
+    <div id='div_pt10_5' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_5' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_5'>通过</button>
+    <div id='div_pt10_5' class="collapse in" align="left">
+    <pre>
+    
+pt10_5: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'page': 1, 'page_size': 10, 'status': 'ongoing'}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_06: 已退单订单列表</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_6' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_6'>通过</button>
+    <div id='div_pt10_6' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_6' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_6'>通过</button>
+    <div id='div_pt10_6' class="collapse in" align="left">
+    <pre>
+    
+pt10_6: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'page': 1, 'page_size': 10, 'status': 'review'}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_07: 状态传送为空</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_7' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_7'>通过</button>
+    <div id='div_pt10_7' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_7' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_7'>通过</button>
+    <div id='div_pt10_7' class="collapse in" align="left">
+    <pre>
+    
+pt10_7: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'page': 1, 'page_size': 10, 'status': ''}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_08: 状态传输不存在</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_8' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_8'>通过</button>
+    <div id='div_pt10_8' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_8' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_8'>通过</button>
+    <div id='div_pt10_8' class="collapse in" align="left">
+    <pre>
+    
+pt10_8: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'page': 1, 'page_size': 10, 'status': 'revie'}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_09: 非活动类型筛选</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_9' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_9'>通过</button>
+    <div id='div_pt10_9' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_9' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_9'>通过</button>
+    <div id='div_pt10_9' class="collapse in" align="left">
+    <pre>
+    
+pt10_9: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'type': 1, 'status': 'all', 'page': 3, 'page_size': 10}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_10' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_10: 活动类型筛选</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_10' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_10'>通过</button>
+    <div id='div_pt10_10' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_10' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_10'>通过</button>
+    <div id='div_pt10_10' class="collapse in" align="left">
+    <pre>
+    
+pt10_10: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'type': 2, 'status': 'all', 'page': 3, 'page_size': 10}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_11' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_11: 筛选类型不存在</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_11' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_11'>通过</button>
+    <div id='div_pt10_11' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_11' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_11'>通过</button>
+    <div id='div_pt10_11' class="collapse in" align="left">
+    <pre>
+    
+pt10_11: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'type': 0, 'status': 'all', 'page': 3, 'page_size': 10}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_12' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_12: 执行时间开始时间晚于结束时间</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_12' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_12'>通过</button>
+    <div id='div_pt10_12' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_12' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_12'>通过</button>
+    <div id='div_pt10_12' class="collapse in" align="left">
+    <pre>
+    
+pt10_12: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'start_at': '2022-01-12', 'end_at': '2022-01-11', 'status': 'all', 'page': 1, 'page_size': 10}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_13' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_13: 下单时间结束时间晚于开始时间</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_13' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_13'>通过</button>
+    <div id='div_pt10_13' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_13' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_13'>通过</button>
+    <div id='div_pt10_13' class="collapse in" align="left">
+    <pre>
+    
+pt10_13: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'created_start_at': '2022-01-09', 'created_end_at': '2022-01-01', 'status': 'all', 'page': 1, 'page_size': 10}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_14' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_14: 执行时间参数有误</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_14' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_14'>通过</button>
+    <div id='div_pt10_14' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_14' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_14'>通过</button>
+    <div id='div_pt10_14' class="collapse in" align="left">
+    <pre>
+    
+pt10_14: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'start_at': '2022-01', 'end_at': '2022-01-11', 'status': 'all', 'page': 1, 'page_size': 10}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_15' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_15: 下单时间参数有误</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_15' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_15'>通过</button>
+    <div id='div_pt10_15' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_15' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_15'>通过</button>
+    <div id='div_pt10_15' class="collapse in" align="left">
+    <pre>
+    
+pt10_15: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'created_start_at': '2022-01-09', 'created_end_at': '2022-01', 'status': 'all', 'page': 1, 'page_size': 10}
+422
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_16' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_16: 输入框筛选</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_16' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_16'>通过</button>
+    <div id='div_pt10_16' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_16' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_16'>通过</button>
+    <div id='div_pt10_16' class="collapse in" align="left">
+    <pre>
+    
+pt10_16: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'keyword': '测试', 'status': 'all', 'page': 1, 'page_size': 10}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr id='pt10_17' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_orderlist_17: 输入为空筛选</div></td>
+    <td colspan='5' align='center'>
+    <!--默认收起错误信息 -Findyou
+    <button id='btn_pt10_17' type="button"  class="btn btn-danger btn-xs collapsed" data-toggle="collapse" data-target='#div_pt10_17'>通过</button>
+    <div id='div_pt10_17' class="collapse">  -->
+    <!-- 默认展开错误信息 -Findyou -->
+    <button id='btn_pt10_17' type="button"  class="btn btn-danger btn-xs" data-toggle="collapse" data-target='#div_pt10_17'>通过</button>
+    <div id='div_pt10_17' class="collapse in" align="left">
+    <pre>
+    
+pt10_17: https://pms.lanhanba.net/v1/property/orders {'Content-Type': 'application/json', 'Company-Id': '294', 'Authorization': 'Bearer  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvbG9jYXRpb24ubGFuaGFuYmEubmV0XC92MVwvcHJvcGVydHlcL3VzZXJcL2xvZ2luIiwiaWF0IjoxNjQyMTQ1ODMyLCJleHAiOjE2NTc2OTc4MzIsIm5iZiI6MTY0MjE0NTgzMiwianRpIjoiQXlxdUpYa0FXaVhjbXRuQiIsInN1YiI6MzY4LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.fOdHjrLSmb9Eg_ASSD42KACfOtPZ12yS642tNfb97zw'} get {'keyword': '', 'status': 'all', 'page': 1, 'page_size': 10}
+200
+
+
+    </pre>
+    </div>
+    </td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_shop.TestShop</td>
+    <td class="text-center">12</td>
+    <td class="text-center">12</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c11',12)" class="detail" id='c11'>详细</a></td>
+</tr>
+
+<tr id='pt11_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_01: 创建项目成功</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_02: 创建项目名重复</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_03: 创建项目非部门</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_04: 项目名为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_05: 项目名超10字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_06: 项目类型为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_07: 项目类型不存在</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_08: 城市id选择为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_09: 场地地址为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_10' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_10: 描述为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_11' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_11: 客户查看权限不存在</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt11_12' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_addShop_12: 描述为超过500字符</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr class='passClass warning'>
+    <td>test_wxorderlist.WxorderList</td>
+    <td class="text-center">9</td>
+    <td class="text-center">9</td>
+    <td class="text-center">0</td>
+    <td class="text-center">0</td>
+    <td class="text-center"><a href="javascript:showClassDetail('c12',9)" class="detail" id='c12'>详细</a></td>
+</tr>
+
+<tr id='pt12_1' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_1: 获取全部订单</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt12_2' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_2: 获取待审核订单列表</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt12_3' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_3: 待支付订单列表</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt12_4' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_4: 待进场订单列表</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt12_5' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_5: 进行中订单列表</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt12_6' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_6: 已退单订单列表</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt12_7' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_7: 状态传送为空</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt12_8' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_8: 状态传输不存在</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='pt12_9' class='hiddenRow'>
+    <td class='passCase'><div class='testcase'>test_wxorderlist_9: 浏览记录</div></td>
+    <td colspan='5' align='center'><span class="label label-success success">通过</span></td>
+</tr>
+
+<tr id='total_row' class="text-center active">
+    <td>总计</td>
+    <td>151</td>
+    <td>148</td>
+    <td>3</td>
+    <td>0</td>
+    <td>通过率：98.01%</td>
+</tr>
+</table>
+
+<div id='ending'>&nbsp;</div>
+    <div style=" position:fixed;right:50px; bottom:30px; width:20px; height:20px;cursor:pointer">
+    <a href="#"><span class="glyphicon glyphicon-eject" style = "font-size:30px;" aria-hidden="true">
+    </span></a></div>
+    
+</body>
+</html>
